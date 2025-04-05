@@ -1,34 +1,28 @@
 import os
 import subprocess as sp
-
-paths = {
-    'spotify': r"C:\Users\NewUser\AppData\Roaming\Spotify\Spotify.exe",
-    'browser': r"C:\Program Files\Mozilla Firefox\firefox.exe",
-    'calculator': "C:\\Windows\\System32\\calc.exe",
-    'telegram': r"C:\Users\NewUser\AppData\Roaming\Telegram Desktop\Telegram.exe",
-    'dota': r"E:\SteamLibrary\steamapps\common\dota 2 beta\game\bin\win64\dota2.exe"
-}
+from path_add import find_file_pathlib, file_add
 
 
-def open_spotify():
-    os.startfile(paths['spotify'])
+def search_in_file(file_path, search_term):
+    with open(file_path) as file:
+        for line in file:
+            if search_term in line:
+                return [True, line[:-1]]
+    return [False, 0]
+
+def open_file(file_path):
+    os.startfile(file_path)
 
 
-def open_browser():
-    os.startfile(paths['browser'])
+file_data = search_in_file('paths.txt', input('Prog name: '))
+if file_data[0] == True:
+    open_file(file_data[1])
+else:
+    if input('Want you to add a file? (y/n)') == 'y':
+        try:
+            file_add(input('What is name of file?'), path='C:/')
+            print('File added succefully!')
+        except Exception:
+            print('File does not exist')
 
 
-def open_cmd():
-    os.system('start cmd')
-
-
-def open_calc():
-    sp.Popen(paths['calculator'])
-
-
-def open_telegram():
-    os.startfile(paths['telegram'])
-
-
-def open_dota():
-    os.startfile(paths['dota'])

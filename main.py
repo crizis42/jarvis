@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 import speech_recognition as sr
 from random import choice
-from utils import opening_text
+from utils import opening_text, stop_text
 from os_ops import open_spotify, open_cmd, open_browser, open_calc, open_telegram, open_dota
 from online_ops import find_my_ip, search_on_wikipedia, play_on_youtube, search_on_google, send_email, contacts, get_weather_report
 from cities_game import cities
@@ -42,16 +42,25 @@ def greetings():
     speak(f'Я голосовой ассистент Мира, чем могу вам помочь?')
 
 
-def take_user_input():
+def take_user_input(assistant_name="мира"):
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print('Слушаю вас.....')
+        print('Ожидаю активации...')
         r.pause_threshold = 2
         audio = r.listen(source)
+        
     try:
-        print('Распознаю вашу речь.....')
-        query = r.recognize_google(audio, language='ru-RU')
-        if not 'остановись' in query or 'стой' in query or 'заверши свою работу' in query :
+        print('Распознаю вашу речь...')
+        query = r.recognize_google(audio, language='ru-RU').lower()
+        
+        # Проверяем, содержит ли запрос имя ассистента
+        if assistant_name.lower() not in query:
+            return "None"
+            
+        # Удаляем имя ассистента из запроса для дальнейшей обработки
+        query = query.replace(assistant_name.lower(), "").strip()
+        
+        if not any(word in query for word in stop_text):
             speak(choice(opening_text))
         else:
             hour = datetime.now().hour
@@ -62,9 +71,11 @@ def take_user_input():
             else:
                 speak('До встречи, хорошего времени суток, сэр!')
             exit()
+            
     except Exception:
         speak('Извините, я вас не понимаю, повторите пожалуйста еще раз')
         query = 'None'
+        
     return query
 
 
