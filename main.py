@@ -5,7 +5,7 @@ import requests
 import speech_recognition as sr
 from random import choice
 from utils import opening_text, stop_text
-from os_ops import open_spotify, open_cmd, open_browser, open_calc, open_telegram, open_dota
+#from os_ops import search_in_file, file_opening, open_file
 from online_ops import find_my_ip, search_on_wikipedia, play_on_youtube, search_on_google, send_email, contacts, get_weather_report
 from cities_game import cities
 
@@ -19,7 +19,7 @@ engine.setProperty('volume', 1.0)
 
 #voice
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[2].id)
 
 
 #text to speech conversio
@@ -40,7 +40,7 @@ def greetings():
     elif (hour > 21) or (hour < 6):
         speak(f'Доброй ночи, сэр')
     speak(f'Я голосовой ассистент Мира, чем могу вам помочь?')
-
+    
 
 def take_user_input(assistant_name="мира"):
     r = sr.Recognizer()
@@ -85,26 +85,7 @@ if __name__ == '__main__':
         query = take_user_input().lower()
         print(query)
 
-        if 'открой spotify' in query or 'открой спотифай' in query:
-            open_spotify()
-
-        elif 'открой browser' in query or 'открой браузер' in query:
-            open_browser()
-
-        elif 'открой командную строку' in query or 'открой консоль' in query:
-            open_cmd()
-
-        elif 'открой калькулятор' in query:
-            open_calc()
-
-        elif 'открой telegram' in query or 'открой телеграм' in query or 'открой телегу' in query:
-            open_telegram()
-
-        elif 'jarvis протокол yagul' in query or 'jarvis протокол я гуль' in query: #не работает, надо фиксить
-            open_spotify()
-            open_dota()
-
-        elif 'найди мой айпи' in query or 'найди мой ip' in query:
+        if 'найди мой айпи' in query or 'найди мой ip' in query:
             ip_address = find_my_ip()
             speak(f'Ваш айпи адрес {ip_address}, ради вашей безопасности я выведу его на экран')
             print(f'Ваш IP-адрес {ip_address}')
