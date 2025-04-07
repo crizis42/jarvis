@@ -1,13 +1,14 @@
 import pyttsx3
 from datetime import datetime
-
+from time import sleep
 import requests
 import speech_recognition as sr
 from random import choice
-from utils import opening_text, stop_text
+from utils import opening_text, stop_text, answers
 #from os_ops import search_in_file, file_opening, open_file
 from online_ops import find_my_ip, search_on_wikipedia, play_on_youtube, search_on_google, send_email, contacts, get_weather_report
 from cities_game import cities
+from interactive import magicball
 
 engine = pyttsx3.init('sapi5')
 
@@ -89,6 +90,17 @@ if __name__ == '__main__':
             ip_address = find_my_ip()
             speak(f'Ваш айпи адрес {ip_address}, ради вашей безопасности я выведу его на экран')
             print(f'Ваш IP-адрес {ip_address}')
+
+        elif 'вопрос' in query:
+            speak(f'Вы хотите обратиться к великому магическому шару?')
+            answer = take_user_input().lower()
+            if 'да' in query:
+                speak(f'Подумайте о своем вопросе и попросите магический шар помочь вам')
+                sleep(3)
+                magicball()
+                speak(f'{choice(answers)}')
+
+
 
         elif 'википедия' in query or 'wikipedia' in query:
             speak('Что вы желаете найти на википедии?')
