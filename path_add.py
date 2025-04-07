@@ -22,7 +22,4 @@ def file_add(filename, path='C:/'):
     return 
 
 
-file_add('Steam.exe')
-file_add('Ayugram.exe')
-
 
