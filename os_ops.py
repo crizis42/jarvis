@@ -1,6 +1,6 @@
 import os
 import subprocess as sp
-from path_add import find_file_pathlib, file_add
+from path_add import find_file_pathlib, file_add, check_json
 from time import sleep
 import json
 
@@ -15,7 +15,8 @@ def search_in_file(file_path, search_term):
 def open_file(file_path):
     os.startfile(file_path)
 
-def file_opening(): 
+def file_opening():
+    check_json()
     name = input('Enter program name: ').capitalize() + '.exe'
     with open('paths.json', 'r', encoding='utf8') as file:
         paths = json.load(file)
@@ -34,4 +35,4 @@ def file_opening():
                 except Exception:
                     print('File does not exist')
 
-file_opening()
+
