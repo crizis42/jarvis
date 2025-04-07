@@ -7,6 +7,12 @@ def find_file_pathlib(filename, search_path):
         return str(file)
     return None
 
+def check_json():
+    if not os.path.exists('paths.json'):
+        with open('paths.json', 'w', encoding='utf8') as f:
+            json.dump({},f)
+    return
+
 def file_add(filename, path='C:/'):
     if os.path.exists('paths.json'):
         with open('paths.json', 'r', encoding='utf8') as f:
